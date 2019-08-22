@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 17:41:48 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/08/22 13:41:07 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/08/22 20:32:20 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ char	*run_checker(int *a, int *b, int top);
 
 //push_swap
 
+int		is_couple(t_conv *list);
+int		is_opposite(t_conv *list);
+void	merge_instr(t_conv *list, int merge_case, int *optimise);
 
 
 //op

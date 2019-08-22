@@ -18,7 +18,8 @@ SRC = checker.c \
 	operations.c \
 	operations2.c \
 	operations3.c \
-	tools.c 
+	tools.c \
+	algorithm.c
 
 OBJ1 = $(addprefix ./obj/,$(SRC:.c=.o))
 OBJ2 = $(addprefix ./obj/,$(SRC:.c=.o))

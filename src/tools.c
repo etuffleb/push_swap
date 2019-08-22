@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 18:17:38 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/08/20 00:51:26 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/08/22 16:33:39 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	draw_status(t_stacks *sts)
 	sts->a[2], 0, sts->a[1], 0, sts->a[0], 0);
 }
 
-void	do_instruction(t_conv *instr_arr, t_stacks *sts)
+void	do_instruction(t_conv *instr_list, t_stacks *sts)
 {
-	(instr_arr->f)(sts);
+	(instr_list->f)(sts);
 }
 
 void	ft_error(char *str)
