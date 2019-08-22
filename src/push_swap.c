@@ -12,25 +12,24 @@
 
 #include "push_swap.h"
 
+void sort_a(t_conv *list, t_stacks *sts, int mid, int max_i);
+
 void add_to_list(t_stacks *sts, t_conv *list, char *str)
 {
 	t_conv *new;
 
 
-	write(1, "t\n", 2);
 
 	while (list->next != NULL)
 	{
-		write(1, "list\n", 5);
+
 		list = list->next;
 	}
-	write(1, "m\n", 2);
 	new = malloc(sizeof(t_conv));
 	new->instr = str;
 	fill_instr(str, new);
 	new->next = NULL;
 	list->next = new;
-	write(1, "d\n", 2);
 	do_instruction(new, sts);
 }
 
@@ -41,67 +40,95 @@ void add_to_list(t_stacks *sts, t_conv *list, char *str)
 
 // }
 
-// void	push_from_b(t_conv *list, t_stacks *sts, int i, int mid)
-// {
-// 	int j;
+void	push_from_b(t_conv *list, t_stacks *sts, int size, int mid)
+{
+	int j;
+	int i;
+	int min;
+	int max;
+	int maxInited = 0;
 
-// 	j = 0;
-// 	while (i--)
-// 	{
-// 		if (sts->b[top_b] < mid)
-// 			add_to_list(sts, list, "pa");
-// 		//	sort_pushing_element(sts->a, sts->top_a);
-// 		else
-// 		{
-// 			add_to_list(sts, list, "rb");
-// 			j++;
-// 		}
+	j = 0;
+	while (size--)
+	{
+		if (sts->b[sts->top_b] < mid) {
+			if (maxInited == 0) 
+			{
+				maxInited = 1;
+				min = sts->b[sts->top_b];
+				max = min;
+			} 
+			else
+			{
+				min = (min > sts->b[sts->top_b]) ? sts->b[sts->top_b] : min;
+				max = (max < sts->b[sts->top_b]) ? sts->b[sts->top_b] : max;
+			}
+			add_to_list(sts, list, "pa");
+		}
+		//	sort_pushing_element(sts->a, sts->top_a);
+		else
+		{
+			add_to_list(sts, list, "rb");
+			j++;
+		}
 
-// 	}
-// 	while (j--)
-// 		add_to_list(sts, list, "rrb");
+	}
+	i = j;
+	while (j--)
+		add_to_list(sts, list, "rrb");
 
-// 	sort_pushing_element
+	sort_a(list, sts, (max + min) / 2, i);
 
-//}
+}
 
-void sort_a(t_conv **list, t_stacks *sts, int mid)
+void sort_a(t_conv *list, t_stacks *sts, int mid, int max_i)
 {
 	int min;
 	int max;
+	int min2;
+	int max2;
+	int max2Inited = 0;
 	int i;
-	t_conv *tmp;
 
-	tmp = *list;
-	if (sts->top_a == 0)
+	if (sts->top_a == 0 || max_i <= 1)
 		return ;
 	min = sts->a[sts->top_a];
 	max = min;
 	i = 0;
-	while (i++ < sts->top_a + 1)
+	while (i++ <= sts->top_a)
 	{
-		write(1, "3\n", 2);
-		if (sts->a[sts->top_a] > mid)
-			add_to_list(sts, tmp, "pb");
-			// min2
-			// max2
+
+		if (sts->a[sts->top_a] > mid) 
+		{
+			if (max2Inited == 0) 
+			{
+				max2Inited = 1;
+				min2 = sts->a[sts->top_a];
+				max2 = min2;
+			} 
+			else
+			{
+				min2 = (min2 > sts->a[sts->top_a]) ? sts->a[sts->top_a] : min2;
+				max2 = (max2 < sts->a[sts->top_a]) ? sts->a[sts->top_a] : max2;
+			}
+			add_to_list(sts, list, "pb");
+		}
 		else
 		{
 			min = (min > sts->a[sts->top_a]) ? sts->a[sts->top_a] : min;
 			max = (max < sts->a[sts->top_a]) ? sts->a[sts->top_a] : max;
-			add_to_list(sts, tmp, "ra");
+			add_to_list(sts, list, "ra");
 		}
 	}
-	sort_a(list, sts, (min + max) / 2);
-	//push_from_b(list, sts, i, (min2 + max2)/2)
-
+	sort_a(list, sts, (min + max) / 2, i);
+	push_from_b(list, sts, i, (min2 + max2)/2);
 }
 
 
 
-void	create_algorithm(t_conv **list, t_stacks *sts, int mid)
+void	create_algorithm(t_conv *list, t_stacks *sts, int mid)
 {
-	sort_a(list, sts, mid);
+	sort_a(list, sts, mid, sts->top_a + 1);
 	//push_from_b(list, sts);
 }
 
@@ -143,13 +170,12 @@ void	run_sorting(int *a, int *b, int mid, int top)
 	sts.top_b = -1;
 
 	instr_list = malloc(sizeof(t_conv));
-	write(1, "2\n", 2);
-	create_algorithm(&instr_list, &sts, mid);
-	write(1, "5\n", 2);
-	optimise_instructions(instr_list);
+	instr_list->next = NULL;
+	create_algorithm(instr_list, &sts, mid);
+	// optimise_instructions(instr_list);
 
 	i = 0;
-	tmp_list = instr_list;
+	tmp_list = instr_list->next;
 	while(tmp_list)
 	{
 		ft_putendl(tmp_list->instr);
@@ -169,14 +195,20 @@ int main(int ac, char **av)
 		ft_error("");
 	middle = 1;
 	is_valid(ac, av);
-	if (!(a = create_stack(ac, av, &middle)))
+	if (!(a = create_stack(ac, av, &middle)))//init {0} !!!
 		ft_error("cannot allocate memory\n");
 	if (!(b = ft_memalloc(sizeof(int) * ac)))
 		ft_error("cannot allocate memory\n");
-	write(1, "1\n", 2);
 	run_sorting(a, b, middle, ac - 2);
 
 	free(a);
 	free(b);
 	return (0);
 }
+
+
+
+
+
+
+
