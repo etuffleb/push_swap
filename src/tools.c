@@ -6,16 +6,24 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 18:17:38 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/08/22 16:33:39 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/08/24 17:43:44 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	draw_status(t_stacks *sts)
+void	draw_status(int *a, int *b)
 {
-	printf("%d %d\n%d %d\n%d %d\n%d %d\n_ _\n", sts->a[3], 0, \
-	sts->a[2], 0, sts->a[1], 0, sts->a[0], 0);
+
+	printf("%d %d\n", a[6], b[6]);
+	printf("%d %d\n", a[5], b[5]);
+	printf("%d %d\n", a[4], b[4]);
+	printf("%d %d\n", a[3], b[3]);
+	printf("%d %d\n", a[2], b[2]);
+	printf("%d %d\n", a[1], b[1]);
+	printf("%d %d\n", a[0], b[0]);
+	printf("_ _\na b\n\n");
+
 }
 
 void	do_instruction(t_conv *instr_list, t_stacks *sts)
@@ -29,30 +37,19 @@ void	ft_error(char *str)
 	exit(1);
 }
 
-int		*create_stack(int ac, char **av, int *mid)
+int		*create_stack(int ac, char **av)
 {
 	int *a;
 	int i;
-	int min;
-	int max;
-
 
 	i = 0;
-	if (!(a = (int *)malloc(sizeof(int) * ac)))
+	if (!(a = (int *)ft_memalloc(sizeof(int) * ac * 2)))
 		return (NULL);
-	min = ft_atoi(av[1]);
-	max = ft_atoi(av[1]);
 	while (i < ac - 1)
 	{
 		a[i] = ft_atoi(av[i + 1]);
-		if (min > a[i])
-			min = a[i];
-		if (max < a[i])
-			max = a[i];
 		i++;
 	}
-	if (*mid)
-		*mid = (min + max) / 2;
 	return (a);
 }
 

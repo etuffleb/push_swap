@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 17:41:48 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/08/22 20:32:20 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/08/24 17:36:46 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 # define PUSH_SWAP_H
 
 # include "libft.h"
-# include <stdlib.h>
-# include <stdio.h>
-# include <unistd.h>
 
+# include <stdio.h>
 
 typedef struct	s_stacks
 {
@@ -65,10 +63,10 @@ void rrr(t_stacks *sts);
 
 //tools
 
-void	draw_status(t_stacks *sts);
+void	draw_status(int *a, int *b);
 void	do_instruction(t_conv *instr_arr, t_stacks *sts);
 void	ft_error(char *str);
-int		*create_stack(int len, char **av, int *mid);
+int		*create_stack(int len, char **av);
 void	is_valid(int ac, char **av);
 
 

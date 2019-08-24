@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 20:35:26 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/08/22 21:26:09 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/08/24 17:49:39 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	read_line(t_stacks *sts)
 	char	*tmp;
 	t_conv	*instruction;
 
-	instruction = malloc(sizeof(t_conv*));
+	instruction = ft_memalloc(sizeof(t_conv*));
 	while (get_next_line(0, &tmp) > 0)
 	{
 		fill_instr(tmp, instruction);
@@ -77,7 +77,7 @@ char	*run_checker(int *a, int *b, int top)
 	sts.top_a = top - 1;
 	sts.top_b = -1;
 	read_line(&sts);
-	draw_status(&sts);
+	draw_status(sts.a, sts.b);
 	if (check_stacks(&sts))
 		return ("OK\n");
 	else
@@ -88,13 +88,11 @@ char	*run_checker(int *a, int *b, int top)
 // {
 // 	int *a;
 // 	int *b;
-// 	int mid;
 
 // 	if (ac < 2)
 // 		ft_error("");
 // 	is_valid(ac, av);
-// 	mid = 0;
-// 	if (!(a = create_stack(ac, av, &mid)))
+// 	if (!(a = create_stack(ac, av)))
 // 		ft_error("cannot allocate memory");
 // 	if (!(b = ft_memalloc(ac)))
 // 		ft_error("cannot allocate memory");

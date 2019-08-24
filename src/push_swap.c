@@ -6,26 +6,23 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 20:34:58 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/08/22 21:55:31 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/08/24 18:19:19 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void sort_a(t_conv *list, t_stacks *sts, int mid, int max_i);
+void sort_a(t_conv *list, t_stacks *sts, int max_i);
 
 void add_to_list(t_stacks *sts, t_conv *list, char *str)
 {
 	t_conv *new;
 
-
-
 	while (list->next != NULL)
 	{
-
 		list = list->next;
 	}
-	new = malloc(sizeof(t_conv));
+	new = ft_memalloc(sizeof(t_conv));
 	new->instr = str;
 	fill_instr(str, new);
 	new->next = NULL;
@@ -33,103 +30,87 @@ void add_to_list(t_stacks *sts, t_conv *list, char *str)
 	do_instruction(new, sts);
 }
 
-// void	sort_pushing_element()
-// {
-// 	if (a[top] < a[top - 1])
-// 		add_to_list(ra);
+int ft_middle(int *stack, int top, int size)
+{
+	int min = stack[top];
+	int max = min;
+	int i;
 
-// }
+	i = 0;
+	while (i < size)
+	{
+		if (min > stack[top - i])
+			min = stack[top - i];
+		if (max < stack[top - i])
+			max = stack[top - i];
+		i++;
+	}
 
-void	push_from_b(t_conv *list, t_stacks *sts, int size, int mid)
+	return ((min + max)/ 2);
+}
+
+void	push_from_b(t_conv *list, t_stacks *sts, int size)
 {
 	int j;
 	int i;
-	int min;
-	int max;
-	int maxInited = 0;
+	int mid;
 
 	j = 0;
+	i = 0;
+	if (sts->top_b == 0)
+	{
+		printf("|top b = 0|\n");
+		size = 1;
+	}
+	mid = ft_middle(sts->b, sts->top_b, size);
+	// printf("|top b = %d, size = %d|\n", sts->top_b, size);
+	// printf("|mid b = %d|\n", mid);
 	while (size--)
 	{
-		if (sts->b[sts->top_b] < mid) {
-			if (maxInited == 0) 
-			{
-				maxInited = 1;
-				min = sts->b[sts->top_b];
-				max = min;
-			} 
-			else
-			{
-				min = (min > sts->b[sts->top_b]) ? sts->b[sts->top_b] : min;
-				max = (max < sts->b[sts->top_b]) ? sts->b[sts->top_b] : max;
-			}
+		if (sts->b[sts->top_b] <= mid)
+		{
 			add_to_list(sts, list, "pa");
+			i++;
+			printf("|b[top b] = %d, mid = %d|\n",sts->b[sts->top_b], mid);
 		}
-		//	sort_pushing_element(sts->a, sts->top_a);
 		else
 		{
-			add_to_list(sts, list, "rb");
-			j++;
+			if (sts->top_b > 1)
+			{
+				add_to_list(sts, list, "rb");
+				j++;
+			}
 		}
-
 	}
-	i = j;
+	//i = j;
 	while (j--)
-		add_to_list(sts, list, "rrb");
+		add_to_list(sts, list, "rrb");//  ->
 
-	sort_a(list, sts, (max + min) / 2, i);
+	sort_a(list, sts, i);//               <-
 
 }
 
-void sort_a(t_conv *list, t_stacks *sts, int mid, int max_i)
+void sort_a(t_conv *list, t_stacks *sts, int max_i)
 {
-	int min;
-	int max;
-	int min2;
-	int max2;
-	int max2Inited = 0;
+	int mid;
 	int i;
 
 	if (sts->top_a == 0 || max_i <= 1)
 		return ;
-	min = sts->a[sts->top_a];
-	max = min;
+	mid = ft_middle(sts->a, sts->top_a, max_i);
+	// printf("|a%d|\n", mid);
 	i = 0;
-	while (i++ <= sts->top_a)
+	while (i <= sts->top_a)
 	{
-
-		if (sts->a[sts->top_a] > mid) 
-		{
-			if (max2Inited == 0) 
-			{
-				max2Inited = 1;
-				min2 = sts->a[sts->top_a];
-				max2 = min2;
-			} 
-			else
-			{
-				min2 = (min2 > sts->a[sts->top_a]) ? sts->a[sts->top_a] : min2;
-				max2 = (max2 < sts->a[sts->top_a]) ? sts->a[sts->top_a] : max2;
-			}
+		if (sts->a[sts->top_a] > mid)
 			add_to_list(sts, list, "pb");
-		}
 		else
-		{
-			min = (min > sts->a[sts->top_a]) ? sts->a[sts->top_a] : min;
-			max = (max < sts->a[sts->top_a]) ? sts->a[sts->top_a] : max;
 			add_to_list(sts, list, "ra");
-		}
+		i++;
 	}
-	sort_a(list, sts, (min + max) / 2, i);
-	push_from_b(list, sts, i, (min2 + max2)/2);
-}
-
-
-
-void	create_algorithm(t_conv *list, t_stacks *sts, int mid)
-{
-	sort_a(list, sts, mid, sts->top_a + 1);
-	//push_from_b(list, sts);
+	// printf("|i = %d|\n", i);
+	sort_a(list, sts, i);
+	push_from_b(list, sts, i);
 }
 
 void	optimise_instructions(t_conv *instr_list)
@@ -157,58 +138,59 @@ void	optimise_instructions(t_conv *instr_list)
 	}
 }
 
-void	run_sorting(int *a, int *b, int mid, int top)
+void	run_sorting(t_stacks *sts, int top)
 {
-	t_stacks	sts;
-	int			i;
 	t_conv		*instr_list;
 	t_conv		*tmp_list;
 
-	sts.a = a;
-	sts.b = b;
-	sts.top_a = top;
-	sts.top_b = -1;
-
-	instr_list = malloc(sizeof(t_conv));
+	instr_list = ft_memalloc(sizeof(t_conv));
 	instr_list->next = NULL;
-	create_algorithm(instr_list, &sts, mid);
-	// optimise_instructions(instr_list);
+	draw_status(sts->a, sts->b);
 
-	i = 0;
+	sort_a(instr_list, sts, top);
+	// printf("sorting done\n");
+	// draw_status(sts->a, sts->b);
+	optimise_instructions(instr_list);
+	// printf("opt done\n");
 	tmp_list = instr_list->next;
+	draw_status(sts->a, sts->b);
+
 	while(tmp_list)
 	{
 		ft_putendl(tmp_list->instr);
-		//draw_status(&sts);
+		// do_instruction(tmp_list, &sts);
+		// draw_status(&sts);
 		tmp_list = tmp_list->next;
 	}
-	//free instr
+	free(sts);
+	free(instr_list);
 }
 
 int main(int ac, char **av)
 {
-	int *a;
-	int *b;
-	int middle;
+	int			*a;
+	int			*b;
+	t_stacks	*sts;
 
 	if (ac < 2)
 		ft_error("");
-	middle = 1;
+
 	is_valid(ac, av);
-	if (!(a = create_stack(ac, av, &middle)))//init {0} !!!
+	if (!(a = create_stack(ac, av)))
 		ft_error("cannot allocate memory\n");
-	if (!(b = ft_memalloc(sizeof(int) * ac)))
+	if (!(b = ft_memalloc(sizeof(int) * ac * 2)))
 		ft_error("cannot allocate memory\n");
-	run_sorting(a, b, middle, ac - 2);
+
+	sts = (t_stacks *)ft_memalloc(sizeof(t_stacks));
+
+	sts->a = a;
+	sts->b = b;
+	sts->top_a = ac - 2;
+	sts->top_b = -1;
+
+	run_sorting(sts, ac - 1);
 
 	free(a);
 	free(b);
-	return (0);
+	exit(0);
 }
-
-
-
-
-
-
-
