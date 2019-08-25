@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 15:14:40 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/08/22 20:31:58 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/08/25 20:34:19 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		is_opposite(t_conv *list)
 		(!ft_strcmp(s1, "rra") && !ft_strcmp(s2, "ra")) || \
 		(!ft_strcmp(s1, "rb") && !ft_strcmp(s2, "rrb")) || \
 		(!ft_strcmp(s1, "rrb") && !ft_strcmp(s2, "rb")) || \
- 		(!ft_strcmp(s1, "rr") && !ft_strcmp(s2, "rrr")) || \
+		(!ft_strcmp(s1, "rr") && !ft_strcmp(s2, "rrr")) || \
 		(!ft_strcmp(s1, "rrr") && !ft_strcmp(s2, "rr")))
 		return (1);
 	return (0);
@@ -51,6 +51,12 @@ int		is_couple(t_conv *list)
 	if ((!ft_strcmp(s1, "rra") && !ft_strcmp(s2, "rrb")) || \
 		(!ft_strcmp(s1, "rrb") && !ft_strcmp(s2, "rra")))
 		return (3);
+	if ((!ft_strcmp(s1, "rr") && !ft_strcmp(s2, "rrb")) || \
+		(!ft_strcmp(s1, "rrb") && !ft_strcmp(s2, "rr")))
+		return (4);
+	if ((!ft_strcmp(s1, "rr") && !ft_strcmp(s2, "rra")) || \
+		(!ft_strcmp(s1, "rra") && !ft_strcmp(s2, "rr")))
+		return (5);
 	return (0);
 //	1)	sa-sb -> ss
 //	2)	ra-rb -> rr
@@ -74,6 +80,16 @@ void	merge_instr(t_conv *list, int merge_case, int *optimise)
 	if (merge_case == 3)
 	{
 		list->next->instr = "rrr";
+		list->next->f = *rrr;
+	}
+	if (merge_case == 4)
+	{
+		list->next->instr = "ra";
+		list->next->f = *rrr;
+	}
+	if (merge_case == 5)
+	{
+		list->next->instr = "rb";
 		list->next->f = *rrr;
 	}
 }

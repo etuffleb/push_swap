@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 20:35:26 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/08/24 17:49:39 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/08/25 18:39:38 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	*run_checker(int *a, int *b, int top)
 // 	is_valid(ac, av);
 // 	if (!(a = create_stack(ac, av)))
 // 		ft_error("cannot allocate memory");
-// 	if (!(b = ft_memalloc(ac)))
+// 	if (!(b = ft_memalloc(sizeof(int) * ac * 2)))
 // 		ft_error("cannot allocate memory");
 // 	if (ac == 2)
 // 		ft_putstr("OK\n");

@@ -6,13 +6,41 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 20:34:58 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/08/24 18:19:19 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/08/25 20:35:57 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void sort_a(t_conv *list, t_stacks *sts, int max_i);
+void sort_a(t_conv *list, t_stacks *sts, int max_i, int is_first);
+
+void	optimise_instructions(t_conv *instr_list)
+{
+	t_conv		*tmp_list;
+	int			optimise;
+	int			mc;
+
+	optimise = 1;
+	while (optimise == 1)
+	{
+		tmp_list = instr_list;
+		optimise = 0;
+		while (tmp_list && tmp_list->next && tmp_list->next->next)
+		{
+			if(is_opposite(tmp_list))
+			{
+				tmp_list->next = tmp_list->next->next->next;
+				optimise = 1;
+			}
+			else if ((mc = is_couple(tmp_list)))
+			{
+				merge_instr(tmp_list, mc, &optimise);
+				optimise = 1;
+			}
+			tmp_list = tmp_list->next;
+		}
+	}
+}
 
 void add_to_list(t_stacks *sts, t_conv *list, char *str)
 {
@@ -30,13 +58,15 @@ void add_to_list(t_stacks *sts, t_conv *list, char *str)
 	do_instruction(new, sts);
 }
 
-int ft_middle(int *stack, int top, int size)
+double ft_middle(int *stack, int top, int size)
 {
-	int min = stack[top];
-	int max = min;
+	double min = stack[top];
+	double max = min;
 	int i;
 
 	i = 0;
+	// printf("min = %d\n", min);
+	// printf("max = %d\n", max);
 	while (i < size)
 	{
 		if (min > stack[top - i])
@@ -45,7 +75,8 @@ int ft_middle(int *stack, int top, int size)
 			max = stack[top - i];
 		i++;
 	}
-
+	// printf("min = %d\n", min);
+	// printf("max = %d\n", max);
 	return ((min + max)/ 2);
 }
 
@@ -53,115 +84,102 @@ void	push_from_b(t_conv *list, t_stacks *sts, int size)
 {
 	int j;
 	int i;
-	int mid;
+	double mid;
 
 	j = 0;
 	i = 0;
-	if (sts->top_b == 0)
+	if (sts->top_b == -1)
 	{
-		printf("|top b = 0|\n");
-		size = 1;
+		return;
 	}
 	mid = ft_middle(sts->b, sts->top_b, size);
-	// printf("|top b = %d, size = %d|\n", sts->top_b, size);
-	// printf("|mid b = %d|\n", mid);
+	// printf("mid = %f\n", mid);
 	while (size--)
 	{
 		if (sts->b[sts->top_b] <= mid)
 		{
 			add_to_list(sts, list, "pa");
 			i++;
-			printf("|b[top b] = %d, mid = %d|\n",sts->b[sts->top_b], mid);
 		}
-		else
+		else //if (sts->top_b > 1)
 		{
-			if (sts->top_b > 1)
-			{
-				add_to_list(sts, list, "rb");
-				j++;
-			}
+			add_to_list(sts, list, "rb");
+			j++;
 		}
 	}
-	//i = j;
 	while (j--)
-		add_to_list(sts, list, "rrb");//  ->
+		add_to_list(sts, list, "rrb");
 
-	sort_a(list, sts, i);//               <-
-
+	sort_a(list, sts, i, 0);
 }
 
-void sort_a(t_conv *list, t_stacks *sts, int max_i)
+void sort_a(t_conv *list, t_stacks *sts, int max_i, int is_first)
 {
-	int mid;
+	double mid;
 	int i;
+	int j;
+	int m;
+	int sch;
 
 	if (sts->top_a == 0 || max_i <= 1)
 		return ;
 	mid = ft_middle(sts->a, sts->top_a, max_i);
-	// printf("|a%d|\n", mid);
+	//printf("mid = %f\n", mid);
+	j = 0;
 	i = 0;
-	while (i <= sts->top_a)
+	sch = 0;
+	while (sch < max_i)
 	{
 		if (sts->a[sts->top_a] > mid)
-			add_to_list(sts, list, "pb");
-		else
-			add_to_list(sts, list, "ra");
-		i++;
-	}
-	// printf("|i = %d|\n", i);
-	sort_a(list, sts, i);
-	push_from_b(list, sts, i);
-}
-
-void	optimise_instructions(t_conv *instr_list)
-{
-	t_conv		*tmp_list;
-	int			optimise;
-	int			mc;
-
-	optimise = 1;
-	while (optimise == 1)
-	{
-		tmp_list = instr_list;
-		optimise = 0;
-		while (tmp_list && tmp_list->next && tmp_list->next->next)// !!!! tmp_list
 		{
-			if(is_opposite(tmp_list))
-			{
-				tmp_list->next = tmp_list->next->next->next;
-				optimise = 1;
-			}
-			else if ((mc = is_couple(tmp_list)))
-				merge_instr(tmp_list, mc, &optimise);
-			tmp_list = tmp_list->next;
+			add_to_list(sts, list, "pb");
+			j++;
 		}
+		else //if (sts->top_a > 0)
+		{
+			add_to_list(sts, list, "ra");
+			i++;
+		}
+		sch++;
 	}
+	m = i;
+	if (!is_first)
+		while (m--)
+			add_to_list(sts, list, "rra");
+
+	sort_a(list, sts, i, is_first);
+
+	push_from_b(list, sts, j);
+	if (sts->top_b != -1)
+		push_from_b(list, sts, j);
 }
 
-void	run_sorting(t_stacks *sts, int top)
+void	run_sorting(t_stacks *sts, int top, t_stacks *sts_copy)
 {
 	t_conv		*instr_list;
 	t_conv		*tmp_list;
 
 	instr_list = ft_memalloc(sizeof(t_conv));
 	instr_list->next = NULL;
-	draw_status(sts->a, sts->b);
 
-	sort_a(instr_list, sts, top);
-	// printf("sorting done\n");
-	// draw_status(sts->a, sts->b);
+
+	sort_a(instr_list, sts, top, 1);
+	// push_from_b(instr_list, sts, 6);
+
 	optimise_instructions(instr_list);
-	// printf("opt done\n");
-	tmp_list = instr_list->next;
-	draw_status(sts->a, sts->b);
 
+	tmp_list = instr_list->next;
+
+	//draw_status(sts_copy->a, sts_copy->b);
 	while(tmp_list)
 	{
 		ft_putendl(tmp_list->instr);
-		// do_instruction(tmp_list, &sts);
-		// draw_status(&sts);
+		do_instruction(tmp_list, sts_copy);
+		//draw_status(sts_copy->a, sts_copy->b);
 		tmp_list = tmp_list->next;
 	}
+	ft_putendl("");
+	//draw_status(sts_copy->a, sts_copy->b);
 	free(sts);
 	free(instr_list);
 }
@@ -169,8 +187,11 @@ void	run_sorting(t_stacks *sts, int top)
 int main(int ac, char **av)
 {
 	int			*a;
+	int			*a_copy;
 	int			*b;
+	int			*b_copy;
 	t_stacks	*sts;
+	t_stacks	*sts_copy;
 
 	if (ac < 2)
 		ft_error("");
@@ -181,6 +202,9 @@ int main(int ac, char **av)
 	if (!(b = ft_memalloc(sizeof(int) * ac * 2)))
 		ft_error("cannot allocate memory\n");
 
+	a_copy = create_stack(ac, av);
+	b_copy = ft_memalloc(sizeof(int) * ac * 2);
+
 	sts = (t_stacks *)ft_memalloc(sizeof(t_stacks));
 
 	sts->a = a;
@@ -188,7 +212,13 @@ int main(int ac, char **av)
 	sts->top_a = ac - 2;
 	sts->top_b = -1;
 
-	run_sorting(sts, ac - 1);
+	sts_copy = (t_stacks *)ft_memalloc(sizeof(t_stacks));
+	sts_copy->a = a_copy;
+	sts_copy->b = b_copy;
+	sts_copy->top_a = ac - 2;
+	sts_copy->top_b = -1;
+
+	run_sorting(sts, ac - 1, sts_copy);
 
 	free(a);
 	free(b);
