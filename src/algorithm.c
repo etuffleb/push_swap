@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 15:14:40 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/08/25 20:34:19 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/08/26 22:33:32 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,6 @@ int		is_couple(t_conv *list)
 		(!ft_strcmp(s1, "rra") && !ft_strcmp(s2, "rr")))
 		return (5);
 	return (0);
-//	1)	sa-sb -> ss
-//	2)	ra-rb -> rr
-//	3)	rra-rrb->rrr
 }
 
 void	merge_instr(t_conv *list, int merge_case, int *optimise)
@@ -85,11 +82,11 @@ void	merge_instr(t_conv *list, int merge_case, int *optimise)
 	if (merge_case == 4)
 	{
 		list->next->instr = "ra";
-		list->next->f = *rrr;
+		list->next->f = *ra;
 	}
 	if (merge_case == 5)
 	{
 		list->next->instr = "rb";
-		list->next->f = *rrr;
+		list->next->f = *rb;
 	}
 }
