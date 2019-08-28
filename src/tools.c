@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 18:17:38 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/08/24 17:43:44 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/08/28 15:28:56 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,20 @@
 
 void	draw_status(int *a, int *b)
 {
+	printf("\t%d\t%d\n", a[10], b[10]);
+	printf("\t%d\t%d\n", a[9], b[9]);
+	printf("\t%d\t%d\n", a[8], b[8]);
+	printf("\t%d\t%d\n", a[7], b[7]);
 
-	printf("%d %d\n", a[6], b[6]);
-	printf("%d %d\n", a[5], b[5]);
-	printf("%d %d\n", a[4], b[4]);
-	printf("%d %d\n", a[3], b[3]);
-	printf("%d %d\n", a[2], b[2]);
-	printf("%d %d\n", a[1], b[1]);
-	printf("%d %d\n", a[0], b[0]);
-	printf("_ _\na b\n\n");
+	printf("\t%d\t%d\n", a[6], b[6]);
+	printf("\t%d\t%d\n", a[5], b[5]);
+	printf("\t%d\t%d\n", a[4], b[4]);
+	printf("\t%d\t%d\n", a[3], b[3]);
+	printf("\t%d\t%d\n", a[2], b[2]);
+	printf("\t%d\t%d\n", a[1], b[1]);
+	printf("\t%d\t%d\n", a[0], b[0]);
+	printf("\t__\t__\n\ta\tb\n\n");
+
 
 }
 

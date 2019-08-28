@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 20:34:58 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/08/26 23:10:27 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/08/28 17:07:50 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,26 +59,19 @@ void add_to_list(t_stacks *sts, t_conv *list, char *str)
 	do_instruction(new, sts);
 }
 
-double ft_middle(int *stack, int top, int size)
+int ft_middle(int *stack, int top, int size)
 {
-	double min = stack[top];
-	double max = min;
+	int mid;
 	int i;
 
 	i = 0;
-	// printf("min = %d\n", min);
-	// printf("max = %d\n", max);
+	mid = 0;
 	while (i < size)
 	{
-		if (min > stack[top - i])
-			min = stack[top - i];
-		if (max < stack[top - i])
-			max = stack[top - i];
+		mid += stack[top - i];
 		i++;
 	}
-	// printf("min = %d\n", min);
-	// printf("max = %d\n", max);
-	return ((min + max)/ 2);
+	return (mid / i);
 }
 
 void	push_from_b(t_conv *list, t_stacks *sts, int size)
@@ -97,7 +90,7 @@ void	push_from_b(t_conv *list, t_stacks *sts, int size)
 	printf("mid = %f, top b = %d, size = %d\n", mid, sts->b[sts->top_b], size);
 	while (size--)
 	{
-		if (sts->b[sts->top_b] <= mid)
+		if (sts->b[sts->top_b] < mid)
 		{
 			// if (sts->top_b > 0 && sts->b[sts->top_b] > sts->b[sts->top_b - 1])
 			// {
@@ -149,11 +142,8 @@ void sort_a(t_conv *list, t_stacks *sts, int max_i, int is_first)
 
 		else //if (sts->top_a > 0)
 		{
-			if (sts->top_a > 0)
-			{
-				add_to_list(sts, list, "ra");
-				draw_status(sts->a, sts->b);
-			}
+			add_to_list(sts, list, "ra");
+			draw_status(sts->a, sts->b);
 			i++;
 		}
 		sch++;
@@ -176,9 +166,63 @@ void sort_a(t_conv *list, t_stacks *sts, int max_i, int is_first)
 		push_from_b(list, sts, j);
 	}
 }
+
+int		ft_pivot(int *stack, int top_a, int size)
+{
+	int		middle;
+	int		pivot;
+	int		tmp;
+	int		i;
+	int		modul;
+
+	middle = ft_middle(stack, top_a, size);
+	i = 0;
+	pivot = stack[size - i];
+	modul = stack[size - i] - middle;
+	modul = (modul < 0) ? modul * -1 : modul;
+	while (i <= size)
+	{
+		tmp = stack[size - i] - middle;
+		tmp = (tmp < 0) ? tmp * -1 : tmp;
+		if (tmp < modul)
+		{
+			modul = tmp;
+			pivot = stack[size - i];
+		}
+		i++;
+	}
+	return (pivot);
+}
+
+void sort_stack_a(t_conv *list, t_stacks *sts, int max_i, int is_first)
+{
+	int pivot;
+
+	pivot = ft_pivot(sts->a, sts->top_a, sts->top_a);
+
+	while (max_i--)
+		if (sts->a[sts->top_a] >= pivot)
+			add_to_list(sts, list, "pb");
+		else
+			add_to_list(sts, list, "ra");
+	if (!is_first)
+		while(max_i--)
+			add_to_list(sts, list, "rra");
+
+}
+
+
+
+
+
+
+
+
+
+
 void	create_algorithm(t_conv *list, t_stacks *sts, int max_i)
 {
-	sort_a(list, sts, max_i, 1);
+	sort_stack_a(list, sts, max_i, 1);
 //	push_from_b(list, sts, max_i);
 }
 
