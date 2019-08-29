@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 20:34:58 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/08/28 17:07:50 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/08/29 17:36:27 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,9 @@ void sort_a(t_conv *list, t_stacks *sts, int max_i, int is_first)
 	}
 }
 
+void sort_stack_b(t_conv *list, t_stacks *sts, int max_i);
+void sort_stack_a(t_conv *list, t_stacks *sts, int max_i, int is_first);
+
 int		ft_pivot(int *stack, int top_a, int size)
 {
 	int		middle;
@@ -175,12 +178,14 @@ int		ft_pivot(int *stack, int top_a, int size)
 	int		i;
 	int		modul;
 
+
 	middle = ft_middle(stack, top_a, size);
+	//printf("	|size = %d, middle = %d|\n", size, middle);
 	i = 0;
 	pivot = stack[size - i];
 	modul = stack[size - i] - middle;
 	modul = (modul < 0) ? modul * -1 : modul;
-	while (i <= size)
+	while (i < size)
 	{
 		tmp = stack[size - i] - middle;
 		tmp = (tmp < 0) ? tmp * -1 : tmp;
@@ -188,34 +193,107 @@ int		ft_pivot(int *stack, int top_a, int size)
 		{
 			modul = tmp;
 			pivot = stack[size - i];
+
 		}
+		//printf("%d) modul = %d, tmp = %d, pivot = %d\n", i, modul, tmp, pivot);
 		i++;
 	}
 	return (pivot);
 }
 
-void sort_stack_a(t_conv *list, t_stacks *sts, int max_i, int is_first)
+void sort_stack_b(t_conv *list, t_stacks *sts, int max_i)
 {
-	int pivot;
+	int piv;
+	int rest;
+	int pushed_b;
 
-	pivot = ft_pivot(sts->a, sts->top_a, sts->top_a);
-
+	add_to_list(sts, list, "pa");//last pivot
+	if(sts->top_b == 0 || max_i == 1)
+	{
+		add_to_list(sts, list, "pa");//the last one
+		return ;
+	}
+	rest = 0;
+	pushed_b = 0;
+	piv = ft_pivot(sts->b, sts->top_b, max_i);
+	printf("max_i in b = %d, pivot in b = %d\n", max_i, piv);
 	while (max_i--)
-		if (sts->a[sts->top_a] >= pivot)
-			add_to_list(sts, list, "pb");
+	{
+		if (sts->b[sts->top_b] < piv)
+		{
+			add_to_list(sts, list, "pa");
+			pushed_b++;
+		}
 		else
-			add_to_list(sts, list, "ra");
-	if (!is_first)
-		while(max_i--)
-			add_to_list(sts, list, "rra");
+		{
+			add_to_list(sts, list, "rb");
+			rest++;
+		}
+		//i++;
+	}
+	while (rest--)
+		add_to_list(sts, list, "rrb");
+	//sort_stack_a(list, sts, pushed_b, 0);
 
 }
 
 
+void sort_stack_a(t_conv *list, t_stacks *sts, int max_i, int is_first)
+{
+	int pivot;
+	int i;
+	int rest;
+	int size_b;
 
+	if (!max_i || sts->top_a < 1)
+		return ;
+	pivot = ft_pivot(sts->a, sts->top_a, max_i - 1);
+	printf("|pivot = %d|\n", pivot);
+	i = 0;
+	rest = 0;
+	size_b = 0;
+	while (i < max_i)
+	{
+		if (sts->a[sts->top_a] > pivot)
+		{
+			add_to_list(sts, list, "pb");
+			size_b++;
+		}
+		else
+		{
+			add_to_list(sts, list, "ra");
+			rest++;
+		}
+		i++;
+	}
+	i = 0;
+	while (i < max_i)
+	{
+		if (sts->a[sts->top_a] == pivot)
+		{
+			add_to_list(sts, list, "pb");
+			// size_b++;
+			break;
+		}
+		else
+		{
+			add_to_list(sts, list, "ra");
+			//rest++;
+		}
+		i++;
+	}
+	i = max_i;
+	if (!is_first)
+		while(i--)
+			add_to_list(sts, list, "rra");
 
+	sort_stack_a(list, sts, rest, 1);
+	printf("max_i = %d, size_b = %d\n", max_i, size_b);
 
-
+	while (sts->top_b != -1)
+		sort_stack_b(list, sts, size_b--);
+	//	sort_stack_b(list, sts, size_b--);
+}
 
 
 
@@ -239,17 +317,17 @@ void	run_sorting(t_stacks *sts, int top, t_stacks *sts_copy)
 
 	tmp_list = instr_list->next;
 	(void)sts_copy;
-	// draw_status(sts_copy->a, sts_copy->b);
-	// while(tmp_list)
-	// {
-	// 	ft_putendl(tmp_list->instr);
+	draw_status(sts_copy->a, sts_copy->b);
+	while(tmp_list)
+	{
+		ft_putendl(tmp_list->instr);
 
-	// 	do_instruction(tmp_list, sts_copy);
-	// 	//draw_status(sts_copy->a, sts_copy->b);
-	// 	tmp_list = tmp_list->next;
-	// 	ft_putendl("");
-	// }
-	// draw_status(sts_copy->a, sts_copy->b);
+		do_instruction(tmp_list, sts_copy);
+		draw_status(sts_copy->a, sts_copy->b);
+		tmp_list = tmp_list->next;
+		ft_putendl("");
+	}
+	draw_status(sts_copy->a, sts_copy->b);
 	free(sts);
 	free(instr_list);
 }
