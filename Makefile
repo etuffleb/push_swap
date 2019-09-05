@@ -6,23 +6,29 @@
 #    By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/02 18:07:51 by etuffleb          #+#    #+#              #
-#    Updated: 2019/08/15 17:44:10 by etuffleb         ###   ########.fr        #
+#    Updated: 2019/08/24 13:24:52 by etuffleb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME1 = push_swap
 NAME2 = checker
 
-SRC = checker.c \
-	push_swap.c \
+SRC1 = push_swap.c \
 	operations.c \
 	operations2.c \
 	operations3.c \
 	tools.c \
 	algorithm.c
 
-OBJ1 = $(addprefix ./obj/,$(SRC:.c=.o))
-OBJ2 = $(addprefix ./obj/,$(SRC:.c=.o))
+SRC2 = 	checker.c \
+	operations.c \
+	operations2.c \
+	operations3.c \
+	tools.c \
+	algorithm.c
+
+OBJ1 = $(addprefix ./obj/,$(SRC1:.c=.o))
+OBJ2 = $(addprefix ./obj/,$(SRC2:.c=.o))
 
 CFLAGS = -Wall -Wextra -Werror -g
 
@@ -45,11 +51,11 @@ $(OBJDIR)%.o:$(SRCDIR)%.c
 $(FT_LIB):
 	make -C ./libft
 
-$(NAME1): $(OBJ1) $(filter-out $(NAME2).o,$(OBJ))
+$(NAME1): $(OBJ1) 
 	gcc $(OBJ1) $(FT_LNK) -lm -o $(NAME1)
 	
 
-$(NAME2): $(OBJ2) $(filter-out $(NAME1).o,$(OBJ))
+$(NAME2): $(OBJ2)
 	gcc $(OBJ2) $(FT_LNK) -lm -o $(NAME2)
 
 clean:

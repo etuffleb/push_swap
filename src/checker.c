@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 20:35:26 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/08/25 18:39:38 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/09/05 22:47:16 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,31 +28,7 @@ int		check_stacks(t_stacks *sts)
 	return (1);
 }
 
-void	fill_instr(char *instruction, t_conv *instr_arr)
-{
-	if (ft_strcmp(instruction, "sa") == 0)
-		instr_arr->f = *sa;
-	else if (ft_strcmp(instruction, "sb") == 0)
-		instr_arr->f = *sb;
-	else if (ft_strcmp(instruction, "ss") == 0)
-		instr_arr->f = *ss;
-	else if (ft_strcmp(instruction, "pa") == 0)
-		instr_arr->f = *pa;
-	else if (ft_strcmp(instruction, "pb") == 0)
-		instr_arr->f = *pb;
-	else if (ft_strcmp(instruction, "ra") == 0)
-		instr_arr->f = *ra;
-	else if (ft_strcmp(instruction, "rb") == 0)
-		instr_arr->f = *rb;
-	else if (ft_strcmp(instruction, "rr") == 0)
-		instr_arr->f = *rr;
-	else if (ft_strcmp(instruction, "rra") == 0)
-		instr_arr->f = *rra;
-	else if (ft_strcmp(instruction, "rrb") == 0)
-		instr_arr->f = *rrb;
-	else if (ft_strcmp(instruction, "rrr") == 0)
-		instr_arr->f = *rrr;
-}
+
 
 void	read_line(t_stacks *sts)
 {
@@ -84,23 +60,23 @@ char	*run_checker(int *a, int *b, int top)
 		return ("KO\n");
 }
 
-// int		main(int ac, char **av)
-// {
-// 	int *a;
-// 	int *b;
+int		main(int ac, char **av)
+{
+	int *a;
+	int *b;
 
-// 	if (ac < 2)
-// 		ft_error("");
-// 	is_valid(ac, av);
-// 	if (!(a = create_stack(ac, av)))
-// 		ft_error("cannot allocate memory");
-// 	if (!(b = ft_memalloc(sizeof(int) * ac * 2)))
-// 		ft_error("cannot allocate memory");
-// 	if (ac == 2)
-// 		ft_putstr("OK\n");
-// 	else
-// 		ft_putstr(run_checker(a, b, ac - 1));
-// 	free(a);
-// 	free(b);
-// 	return (0);
-// }
+	if (ac < 2)
+		ft_error("");
+	is_valid(ac, av);
+	if (!(a = create_stack(ac, av)))
+		ft_error("cannot allocate memory");
+	if (!(b = ft_memalloc(sizeof(int) * ac * 2)))
+		ft_error("cannot allocate memory");
+	if (ac == 2)
+		ft_putstr("OK\n");
+	else
+		ft_putstr(run_checker(a, b, ac - 1));
+	free(a);
+	free(b);
+	return (0);
+}

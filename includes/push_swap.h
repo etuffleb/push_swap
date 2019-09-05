@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 17:41:48 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/08/24 17:36:46 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/09/05 22:47:00 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct	s_stacks
 	int			*b;
 	int			top_a;
 	int			top_b;
+	int rest;
 }				t_stacks;
 
 typedef struct		s_conv
@@ -32,6 +33,13 @@ typedef struct		s_conv
 	void			(*f)(t_stacks *);
 	struct s_conv	*next;
 }					t_conv;
+
+typedef struct		s_norm
+{
+	t_conv			*list;
+	t_stacks		*stas;
+}					t_norm;
+
 
 //checker
 
@@ -68,6 +76,10 @@ void	do_instruction(t_conv *instr_arr, t_stacks *sts);
 void	ft_error(char *str);
 int		*create_stack(int len, char **av);
 void	is_valid(int ac, char **av);
-
+void	sort_stack_b(t_conv *list, t_stacks *sts, int max_i);
+void	sort_stack_a(t_conv *list, t_stacks *sts, int max_i, int is_first);
+void	optimise_instructions(t_conv *instr_list);
+double	ft_pivot(int *stack, int top, int size);
+void	add_to_list(t_stacks *sts, t_conv *list, char *str);
 
 #endif

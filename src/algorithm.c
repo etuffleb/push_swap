@@ -6,11 +6,27 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 15:14:40 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/08/26 22:33:32 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/09/05 20:52:05 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void add_to_list(t_stacks *sts, t_conv *list, char *str)
+{
+	t_conv *new;
+
+	while (list->next != NULL)
+	{
+		list = list->next;
+	}
+	new = ft_memalloc(sizeof(t_conv));
+	new->instr = str;
+	fill_instr(str, new);
+	new->next = NULL;
+	list->next = new;
+	do_instruction(new, sts);
+}
 
 int		is_opposite(t_conv *list)
 {
@@ -29,10 +45,6 @@ int		is_opposite(t_conv *list)
 		(!ft_strcmp(s1, "rrr") && !ft_strcmp(s2, "rr")))
 		return (1);
 	return (0);
-//	pa-pb
-//	ra-rra
-//	rb-rrb
-//	rr-rrr
 }
 
 int		is_couple(t_conv *list)
@@ -51,12 +63,6 @@ int		is_couple(t_conv *list)
 	if ((!ft_strcmp(s1, "rra") && !ft_strcmp(s2, "rrb")) || \
 		(!ft_strcmp(s1, "rrb") && !ft_strcmp(s2, "rra")))
 		return (3);
-	if ((!ft_strcmp(s1, "rr") && !ft_strcmp(s2, "rrb")) || \
-		(!ft_strcmp(s1, "rrb") && !ft_strcmp(s2, "rr")))
-		return (4);
-	if ((!ft_strcmp(s1, "rr") && !ft_strcmp(s2, "rra")) || \
-		(!ft_strcmp(s1, "rra") && !ft_strcmp(s2, "rr")))
-		return (5);
 	return (0);
 }
 
@@ -79,14 +85,32 @@ void	merge_instr(t_conv *list, int merge_case, int *optimise)
 		list->next->instr = "rrr";
 		list->next->f = *rrr;
 	}
-	if (merge_case == 4)
+}
+
+void	optimise_instructions(t_conv *instr_list)
+{
+	t_conv		*tmp_list;
+	int			optimise;
+	int			mc;
+
+	optimise = 1;
+	while (optimise == 1)
 	{
-		list->next->instr = "ra";
-		list->next->f = *ra;
-	}
-	if (merge_case == 5)
-	{
-		list->next->instr = "rb";
-		list->next->f = *rb;
+		tmp_list = instr_list;
+		optimise = 0;
+		while (tmp_list && tmp_list->next && tmp_list->next->next)
+		{
+			if (is_opposite(tmp_list))
+			{
+				tmp_list->next = tmp_list->next->next->next;
+				optimise = 1;
+			}
+			else if ((mc = is_couple(tmp_list)))
+			{
+				merge_instr(tmp_list, mc, &optimise);
+				optimise = 1;
+			}
+			tmp_list = tmp_list->next;
+		}
 	}
 }

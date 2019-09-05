@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 19:04:28 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/08/20 00:41:20 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/09/05 20:44:17 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,10 @@ void	rr(t_stacks *sts)
 {
 	ra(sts);
 	rb(sts);
+}
+
+void	rrr(t_stacks *sts)
+{
+	rra(sts);
+	rrb(sts);
 }
