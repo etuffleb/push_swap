@@ -13,19 +13,16 @@
 NAME1 = push_swap
 NAME2 = checker
 
-SRC1 = push_swap.c \
-	operations.c \
+SRC = 	operations.c \
 	operations2.c \
 	operations3.c \
 	tools.c \
-	algorithm.c
+	optimization.c \
+	validation.c \
+	quick_sort.c
 
-SRC2 = 	checker.c \
-	operations.c \
-	operations2.c \
-	operations3.c \
-	tools.c \
-	algorithm.c
+SRC1 = $(SRC) push_swap.c
+SRC2 = $(SRC) checker.c 
 
 OBJ1 = $(addprefix ./obj/,$(SRC1:.c=.o))
 OBJ2 = $(addprefix ./obj/,$(SRC2:.c=.o))

@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 18:17:38 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/09/05 22:47:21 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/09/18 20:51:48 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,41 +41,6 @@ void	ft_error(char *str)
 {
 	ft_putendl(str);
 	exit(1);
-}
-
-int		*create_stack(int ac, char **av)
-{
-	int *a;
-	int i;
-
-	i = 0;
-	if (!(a = (int *)ft_memalloc(sizeof(int) * ac * 3)))
-		return (NULL);
-	while (i < ac - 1)
-	{
-		a[i] = ft_atoi(av[i + 1]);
-		i++;
-	}
-	return (a);
-}
-
-void	is_valid(int ac, char **av)
-{
-	int i;
-	int j;
-
-	i = 1;
-	while (i < ac)
-	{
-		j = 0;
-		while (av[i][j] != '\0')
-		{
-			if ((av[i][j] < '0' || av[i][j] > '9') && av[i][j] != '-')
-				ft_error("Error");
-			j++;
-		}
-		i++;
-	}
 }
 
 void	fill_instr(char *instruction, t_conv *instr_arr)

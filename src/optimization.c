@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   algorithm.c                                        :+:      :+:    :+:   */
+/*   optimization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 15:14:40 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/09/05 20:52:05 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/09/18 21:05:34 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void add_to_list(t_stacks *sts, t_conv *list, char *str)
+void	add_to_list(t_stacks *sts, t_conv *list, char *str)
 {
 	t_conv *new;
 
