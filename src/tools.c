@@ -6,30 +6,38 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 18:17:38 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/10/03 20:34:52 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/10/12 00:34:27 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	draw_test(int *a, int *b)
+int		ft_max_a(int *a, int top)
 {
-	printf("\t%d\t%d\n", a[14], b[14]);
-	printf("\t%d\t%d\n", a[13], b[13]);
-	printf("\t%d\t%d\n", a[12], b[12]);
-	printf("\t%d\t%d\n", a[11], b[11]);
-	printf("\t%d\t%d\n", a[10], b[10]);
-	printf("\t%d\t%d\n", a[9], b[9]);
-	printf("\t%d\t%d\n", a[8], b[8]);
-	printf("\t%d\t%d\n", a[7], b[7]);
-	printf("\t%d\t%d\n", a[6], b[6]);
-	printf("\t%d\t%d\n", a[5], b[5]);
-	printf("\t%d\t%d\n", a[4], b[4]);
-	printf("\t%d\t%d\n", a[3], b[3]);
-	printf("\t%d\t%d\n", a[2], b[2]);
-	printf("\t%d\t%d\n", a[1], b[1]);
-	printf("\t%d\t%d\n", a[0], b[0]);
-	printf("\t__\t__\n\ta\tb\n\n");
+	int max;
+
+	max = a[top];
+	while (top > -1)
+	{
+		if (max < a[top])
+			max = a[top];
+		top--;
+	}
+	return (max);
+}
+
+int		ft_min_a(int *a, int top)
+{
+	int min;
+
+	min = a[top];
+	while (top > -1)
+	{
+		if (min > a[top])
+			min = a[top];
+		top--;
+	}
+	return (min);
 }
 
 void	do_instruction(t_conv *instr_list, t_stacks *sts)
@@ -37,14 +45,12 @@ void	do_instruction(t_conv *instr_list, t_stacks *sts)
 	(instr_list->f)(sts);
 }
 
-void	ft_error(char *str)
-{
-	ft_putendl(str);
-	exit(1);
-}
-
 void	fill_instr(char *instruction, t_conv *instr_arr)
 {
+	while(*instruction == ' ')
+	{
+		instruction++;
+	}
 	if (ft_strcmp(instruction, "sa") == 0)
 		instr_arr->f = *sa;
 	else if (ft_strcmp(instruction, "sb") == 0)
@@ -68,7 +74,5 @@ void	fill_instr(char *instruction, t_conv *instr_arr)
 	else if (ft_strcmp(instruction, "rrr") == 0)
 		instr_arr->f = *rrr;
 	else
-	{
 		ft_error("Wrong command");
-	}
 }

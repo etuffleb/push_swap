@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/15 18:22:33 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/10/05 18:27:39 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/10/06 21:01:29 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,36 +74,7 @@ void	sort_three(t_conv *list, t_stacks *sts, int top)
 		add_to_list(sts, list, "sa");
 }
 
-
-int		ft_max_a(int *a, int top)
-{
-	int max;
-
-	max = a[top];
-	while (top > -1)
-	{
-		if (max < a[top])
-			max = a[top];
-		top--;
-	}
-	return (max);
-}
-
-int		ft_min_a(int *a, int top)
-{
-	int min;
-
-	min = a[top];
-	while (top > -1)
-	{
-		if (min > a[top])
-			min = a[top];
-		top--;
-	}
-	return (min);
-}
-
-void	push_b_min(t_conv *list, t_stacks *sts, int top)//to check / checked?
+void	push_b_min(t_conv *list, t_stacks *sts, int top)
 {
 	int c_ra;
 	int i;
@@ -123,7 +94,7 @@ void	push_b_min(t_conv *list, t_stacks *sts, int top)//to check / checked?
 			c_ra--;
 		}
 	else
-		while (((top+1) - c_ra))
+		while (((top + 1) - c_ra))
 		{
 			add_to_list(sts, list, "rra");
 			c_ra++;
@@ -148,104 +119,4 @@ void	smart_sort(t_conv *list, t_stacks *sts, int top)
 	sort_three(list, sts, 2);
 	while (top-- > 2)
 		add_to_list(sts, list, "pa");
-}
-
-
-
-
-
-
-int		sort_pushed_in_a(t_conv *list, t_stacks *sts, int pushed_a)
-{
-	int pivot;
-	int i;
-	int rest;
-	int size_b;
-
-	if (pushed_a < 2)
-		return (0);
-	if (pushed_a == 2)
-	{
-		if (sts->a[sts->top_a] < sts->a[sts->top_a - 1])
-			add_to_list(sts, list, "sa");
-		return (0);
-	}
-	pivot = (int)ft_pivot(sts->a, sts->top_a, pushed_a);
-	i = 0;
-	rest = 0;
-	size_b = 0;
-	while (i++ < pushed_a)
-		if (sts->a[sts->top_a] >= pivot)
-		{
-			add_to_list(sts, list, "pb");
-			size_b++;
-		}
-		else if (sts->a[sts->top_a] < pivot)
-		{
-			add_to_list(sts, list, "ra");
-			rest++;
-		}
-	i = rest;
-	while (i--)
-		add_to_list(sts, list, "rra");
-	return (size_b + sort_pushed_in_a(list, sts, rest));
-}
-
-void	sort_stack_b(t_conv *list, t_stacks *sts, int max_i)
-{
-	int i;
-	int piv;
-	int rest;
-	int pushed_a;
-
-	if (sts->top_b == 0)
-	{
-		add_to_list(sts, list, "pa");
-		return ;
-	}
-	i = 0;
-	rest = 0;
-	pushed_a = 0;
-	piv = ft_pivot(sts->b, sts->top_b, max_i - 1);
-	while (i++ < max_i)
-		if (sts->b[sts->top_b] <= piv && (++pushed_a))
-			add_to_list(sts, list, "pa");
-		else if ((++rest))
-			add_to_list(sts, list, "rb");
-	i = rest;
-	while (i--)
-		add_to_list(sts, list, "rrb");
-	rest += sort_pushed_in_a(list, sts, pushed_a);
-	if (rest)
-		sort_stack_b(list, sts, rest);
-}
-
-void	quick_sort_a(t_conv *list, t_stacks *sts, int max_i, int is_first)
-{
-	int pivot;
-	int i;
-	int rest;
-	int size_b;
-
-	if (max_i < 2 || sts->top_a < 1)
-		return ;
-	pivot = (int)ft_pivot(sts->a, sts->top_a, max_i - 1);
-	i = 0;
-	rest = 0;
-	size_b = 0;
-	while (i++ < max_i)
-		if (sts->a[sts->top_a] >= pivot && (++size_b))
-			add_to_list(sts, list, "pb");
-		else
-		{
-			add_to_list(sts, list, "ra");
-			rest++;
-		}
-	i = rest;
-	if (!is_first)
-		while (i--)
-			add_to_list(sts, list, "rra");
-	if (rest > 1)
-		quick_sort_a(list, sts, rest, is_first);
-	// sort_stack_b(list, sts, size_b);
 }

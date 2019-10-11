@@ -6,30 +6,34 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 20:35:26 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/10/04 04:04:39 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/10/12 00:44:13 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	read_line(t_stacks *sts)
+void	read_line(t_stacks *sts, int v)
 {
 	char	*tmp;
+	int		top;
 	t_conv	*instruction;
 
-
 	instruction = ft_memalloc(sizeof(t_conv*));
+	top = sts->top_a;
+	if (v)
+		checker_vizualisation(sts, top);
 	while (get_next_line(0, &tmp) > 0)
 	{
 		fill_instr(tmp, instruction);
 		do_instruction(instruction, sts);
-		// free (tmp);
+		free (tmp);
+		if (v)
+			checker_vizualisation(sts, top);
 	}
-	
 	free(instruction);
 }
 
-char	*run_checker(int *a, int *b, int top)
+char	*run_checker(int *a, int *b, int top, int v)
 {
 	t_stacks	sts;
 
@@ -37,8 +41,7 @@ char	*run_checker(int *a, int *b, int top)
 	sts.b = b;
 	sts.top_a = top - 1;
 	sts.top_b = -1;
-	read_line(&sts);
-	draw_test(sts.a, sts.b);
+	read_line(&sts, v);
 	if (check_stacks(&sts))
 		return ("OK\n");
 	else
@@ -61,17 +64,14 @@ int		main(int ac, char **av)
 		v = 1;
 	}
 	if (ac < 2)
-		ft_error("");
+		return (0);
 	if (!(a = is_valid(ac, av, &top)))
 		ft_error("cannot allocate memory\n");
 	if (!(b = ft_memalloc(sizeof(int) * top)))
 		ft_error("cannot allocate memory");
-	if (!v)
-		ft_putstr(run_checker(a, b, top));
-	else
-	{
-		/* code */
-	}	
+	// draw_test(a, b);
+	ft_putstr(run_checker(a, b, top, v));
+	// draw_test(a, b);
 	free(a);
 	free(b);
 	return (0);

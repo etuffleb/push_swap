@@ -6,11 +6,17 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 20:51:28 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/10/02 21:22:54 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/10/12 00:33:47 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	ft_error(char *str)
+{
+	ft_putendl(str);
+	exit(1);
+}
 
 void	check_repeat(int *a, int size)
 {
@@ -46,7 +52,7 @@ int		*create_stack(int ac, char **av, int *top)
 		j = 0;
 		while (av[i + 1][j] != '\0')
 		{
-			a[t++] = ft_atoi(&av[i + 1][j++]);
+			a[(*top) - ++t] = ft_atoi(&av[i + 1][j++]);
 			while ((ft_isdigit(av[i + 1][j]) || av[i + 1][j] == '-' || \
 			av[i + 1][j] == '+') && av[i + 1][j] != '\0')
 				j++;
