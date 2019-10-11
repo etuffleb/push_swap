@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/02 00:30:49 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/10/02 23:50:45 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/10/12 00:59:14 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,24 @@
 
 void	draw_status(t_stacks *sts, int hight)
 {
-	int i;
-
-	i = 0;
+	write(1, GREEN, 7);
 	while (hight > -1)
 	{
-		printf("%s\t\t[%d]\t\t[%d]\n", GREEN, sts->a[hight], sts->b[hight]);
+		ft_putstr("\t\t[");
+		ft_putnbr(sts->a[hight]);
+		ft_putstr("]\t\t[");
+		ft_putnbr(sts->b[hight]);
+		ft_putstr("]\n");
 		hight--;
 	}
-	printf("\t\t------\t\t------\n\t\tstack a\t\tstack b\n\n%s", RESET);
+	ft_putstr("\t\t------\t\t------\n\t\tstack a\t\tstack b\n\n");
+	write(1, RESET, 5);
+}
+
+void	checker_vizualisation(t_stacks *sts, int top)
+{
+	system("clear");
+	draw_status(sts, top);
 }
 
 void	start_vizualisation(t_stacks *sts, t_conv *instr_list)

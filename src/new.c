@@ -55,10 +55,10 @@ int		op_counter(int i, t_stacks *sts)
 			j++;
 		}
 	else
-		j = 0;
+		j = -1;
 
 	if ((sts->top_a - j) < (j + 1))
-		rot_a = sts->top_a - i;//ra
+		rot_a = sts->top_a - j;//ra
 	else
 		rot_a = j + 1;//rra
 
@@ -101,24 +101,23 @@ void	add_list_of_instr(t_conv *list, t_stacks *sts, int i)
 				break ;
 			j++;
 		}
-	k = 0;
-	// printf ("\t|j = %d|\t(sts->top_a - j) = %d (j + 1) = %d\n", j, (sts->top_a - j) , (j + 1));
-	if ((sts->top_a - j) < (j + 1))
-	{
-		while (k < sts->top_a - j)
-		{
-			add_to_list(sts, list, "ra");
-			k++;
-		}
-	}
-	else
-	{
-		while (k < (j + 1))
-		{
-			add_to_list(sts, list, "rra");
-			k++;
-		}
-	}
+        k = 0;
+        if ((sts->top_a - j) < (j + 1))
+        {
+            while (k < sts->top_a - j)
+            {
+                add_to_list(sts, list, "ra");
+                k++;
+            }
+        }
+        else
+        {
+            while (k < (j + 1))
+            {
+                add_to_list(sts, list, "rra");
+                k++;
+            }
+        }
 	}
 	add_to_list(sts, list, "pa");
 }

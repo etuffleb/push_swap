@@ -6,7 +6,7 @@
 #    By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/02 18:07:51 by etuffleb          #+#    #+#              #
-#    Updated: 2019/08/24 13:24:52 by etuffleb         ###   ########.fr        #
+#    Updated: 2019/10/06 20:57:11 by etuffleb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,6 @@ SRC = 	operations.c \
 	optimization.c \
 	validation.c \
 	quick_sort.c \
-	insertion_sort.c \
 	new.c \
 	vizualisation.c
 

@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 18:29:39 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/10/05 18:53:52 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/10/06 20:58:32 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	pa(t_stacks *sts)
 {
-
 	if (sts->top_b == -1)
 		return ;
 	sts->a[sts->top_a + 1] = sts->b[sts->top_b];
