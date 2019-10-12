@@ -6,43 +6,13 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 15:14:40 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/10/05 18:26:45 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/10/12 03:16:27 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-
-int		check_stacks(t_stacks *sts)
-{
-	int top;
-
-	top = sts->top_a;
-	if (sts->top_b != -1)
-		return (0);
-	if (sts->a[top] > sts->a[top - 1])
-	{
-		while (top > 0)
-		{
-			if (sts->a[top] < sts->a[top - 1])
-				return (0);
-			top--;
-		}
-	}
-	else
-	{
-		top = sts->top_a;
-		while (top > 0)
-		{
-			if (sts->a[top] > sts->a[top - 1])
-				return (0);
-			top--;
-		}
-	}
-	return (1);
-}
-
-int		is_opposite(t_conv *list)
+int			is_opposite(t_conv *list)
 {
 	char *s1;
 	char *s2;
@@ -61,8 +31,7 @@ int		is_opposite(t_conv *list)
 	return (0);
 }
 
-
-int		is_couple(t_conv *list)
+int			is_couple(t_conv *list)
 {
 	char *s1;
 	char *s2;
@@ -81,10 +50,14 @@ int		is_couple(t_conv *list)
 	return (0);
 }
 
-void	merge_instr(t_conv *list, int merge_case, int *optimise)
+void		merge_instr(t_conv *list, int merge_case, int *optimise)
 {
+	t_conv *list_to_free;
+
+	list_to_free = list->next;
 	*optimise = 1;
 	list->next = list->next->next;
+	free(list_to_free);
 	if (merge_case == 1)
 	{
 		list->next->instr = "ss";
@@ -102,13 +75,26 @@ void	merge_instr(t_conv *list, int merge_case, int *optimise)
 	}
 }
 
-void	optimise_instructions(t_conv *instr_list)
+void		delete_opposite(t_conv *list, int *optimise)
 {
+	t_conv		*list_to_free;
+
+	list_to_free = list->next;
+	list->next = list->next->next->next;
+	free(list_to_free);
+	free(list_to_free->next);
+	*optimise = 1;
+}
+
+t_conv		*optimise_instructions(t_conv *instr_list)
+{
+	t_conv		*list_to_free;
 	t_conv		*tmp_list;
 	int			optimise;
 	int			mc;
 
 	optimise = 1;
+	list_to_free = instr_list;
 	while (optimise == 1)
 	{
 		tmp_list = instr_list;
@@ -116,36 +102,11 @@ void	optimise_instructions(t_conv *instr_list)
 		while (tmp_list && tmp_list->next && tmp_list->next->next)
 		{
 			if (is_opposite(tmp_list))
-			{
-				tmp_list->next = tmp_list->next->next->next;
-				optimise = 1;
-			}
+				delete_opposite(tmp_list, &optimise);
 			else if ((mc = is_couple(tmp_list)))
-			{
 				merge_instr(tmp_list, mc, &optimise);
-				optimise = 1;
-			}
 			tmp_list = tmp_list->next;
 		}
 	}
+	return (list_to_free);
 }
-
-
-void	add_to_list(t_stacks *sts, t_conv *list, char *str)
-{
-	t_conv *new;
-
-	while (list->next != NULL)
-	{
-		list = list->next;
-	}
-	
-	new = ft_memalloc(sizeof(t_conv));
-	new->instr = str;
-	fill_instr(str, new);
-	new->next = NULL;
-	list->next = new;
-	do_instruction(new, sts);
-	// free(new);
-}
-

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new.c                                              :+:      :+:    :+:   */
+/*   algorithm2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/03 20:48:03 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/10/05 19:44:17 by etuffleb         ###   ########.fr       */
+/*   Created: 2019/10/12 03:45:22 by etuffleb          #+#    #+#             */
+/*   Updated: 2019/10/12 03:45:34 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,92 +37,69 @@ void	sort_a_in_needed_order(t_conv *list, t_stacks *sts, int top)
 
 int		op_counter(int i, t_stacks *sts)
 {
-	int rot_b;//rb or rrb
-	int rot_a;//ra or rra
+	int rot_b;
+	int rot_a;
 	int op;
 	int j;
 
-	if ((sts->top_b - i) < (i + 1))
-		rot_b = sts->top_b - i;//rb
-	else
-		rot_b = i + 1;//rrb
+	rot_b = ((sts->top_b - i) < (i + 1)) ? (sts->top_b - i) : (i + 1);
 	j = 0;
 	if (!(sts->b[i] < sts->a[sts->top_a] && sts->b[i] > sts->a[0]))
-		while (j < sts->top_a)//
+		while (j < sts->top_a)
 		{
-			if (sts->b[i] < sts->a[j] && (j != sts->top_a && sts->b[i] > sts->a[j + 1]))//j != top_a lishnee
+			if (sts->b[i] < sts->a[j] && (j != sts->top_a && \
+				sts->b[i] > sts->a[j + 1]))
 				break ;
 			j++;
 		}
 	else
 		j = -1;
-
-	if ((sts->top_a - j) < (j + 1))
-		rot_a = sts->top_a - j;//ra
-	else
-		rot_a = j + 1;//rra
-
-	//printf("rot a = %d, rot b = %d\n", rot_a, rot_b);
-
-	op = rot_b + rot_a + 1;//pa
+	rot_a = ((sts->top_a - j) < (j + 1)) ? (sts->top_a - j) : (j + 1);
+	op = rot_b + rot_a + 1;
 	return (op);
-	// rra = i + 1;
-	// ra = top_b - (i )
+}
+
+void	add_func_to_list(t_conv *list, t_stacks *sts, int nbr, char *func)
+{
+	int i;
+
+	i = 0;
+	while (i < nbr)
+	{
+		add_to_list(sts, list, func);
+		i++;
+	}
 }
 
 void	add_list_of_instr(t_conv *list, t_stacks *sts, int i)
 {
 	int j;
-	int k;
 
 	j = 0;
 	if ((sts->top_b - i) < (i + 1))
-		while (j < sts->top_b - i)
-		{
-			add_to_list(sts, list, "rb");
-			j++;
-		}
+		add_func_to_list(list, sts, sts->top_b - i, "rb");
 	else
-	{
-		while (j < (i + 1))
-		{
-			add_to_list(sts, list, "rrb");
-			j++;
-		}
-	}
+		add_func_to_list(list, sts, i + 1, "rrb");
 	j = 0;
-	if (!(sts->b[sts->top_b] < sts->a[sts->top_a] && sts->b[sts->top_b] > sts->a[0]))
+	if (!(sts->b[sts->top_b] < sts->a[sts->top_a] && \
+		sts->b[sts->top_b] > sts->a[0]))
 	{
-		// printf ("ALERT sts->top_b = %d\n", sts->top_b);
-		// draw_test(sts->a, sts->b);
 		while (j < sts->top_a)
 		{
-			if (sts->b[sts->top_b] < sts->a[j] && (j != sts->top_a && sts->b[sts->top_b] > sts->a[j + 1]))
+			if (sts->b[sts->top_b] < sts->a[j] && (j != sts->top_a && \
+				sts->b[sts->top_b] > sts->a[j + 1]))
 				break ;
 			j++;
 		}
-        k = 0;
-        if ((sts->top_a - j) < (j + 1))
-        {
-            while (k < sts->top_a - j)
-            {
-                add_to_list(sts, list, "ra");
-                k++;
-            }
-        }
-        else
-        {
-            while (k < (j + 1))
-            {
-                add_to_list(sts, list, "rra");
-                k++;
-            }
-        }
+		if ((sts->top_a - j) < (j + 1))
+			add_func_to_list(list, sts, sts->top_a - j, "ra");
+		else
+			add_func_to_list(list, sts, j + 1, "rra");
 	}
 	add_to_list(sts, list, "pa");
 }
 
-int		find_min_i(t_stacks *sts)//min_i is [i] of array a, with minimal len of instr list
+int		find_min_i(t_stacks *sts)
 {
 	int i;
 	int min_i;
@@ -132,11 +109,9 @@ int		find_min_i(t_stacks *sts)//min_i is [i] of array a, with minimal len of ins
 	res = 0;
 	i = 0;
 	min_i = op_counter(i, sts);
-	// printf("for i = %d, tmp = %d\n", i, min_i);
 	while (++i <= sts->top_b)
 	{
-		tmp = op_counter(i, sts);//some ideas for optimisation: if tmp == 1, break
-		// printf("for i = %d, tmp = %d\n", i, tmp);
+		tmp = op_counter(i, sts);
 		if (min_i > tmp)
 		{
 			min_i = tmp;
@@ -145,4 +120,3 @@ int		find_min_i(t_stacks *sts)//min_i is [i] of array a, with minimal len of ins
 	}
 	return (res);
 }
-

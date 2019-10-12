@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/02 00:30:49 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/10/12 00:59:14 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/10/12 04:14:18 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,15 @@ void	draw_status(t_stacks *sts, int hight)
 	while (hight > -1)
 	{
 		ft_putstr("\t\t[");
-		ft_putnbr(sts->a[hight]);
+		if (hight > sts->top_a)
+			ft_putstr(" ");
+		else
+			ft_putnbr(sts->a[hight]);
 		ft_putstr("]\t\t[");
-		ft_putnbr(sts->b[hight]);
+		if (hight > sts->top_b)
+			ft_putstr(" ");
+		else
+			ft_putnbr(sts->b[hight]);
 		ft_putstr("]\n");
 		hight--;
 	}
@@ -47,7 +53,7 @@ void	start_vizualisation(t_stacks *sts, t_conv *instr_list)
 		system("clear");
 		do_instruction(instr_list, sts);
 		draw_status(sts, hight);
-		usleep(100000);
+		usleep(50000);
 		instr_list = instr_list->next;
 	}
 }

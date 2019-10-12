@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 18:17:38 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/10/12 00:34:27 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/10/12 01:10:37 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,6 @@ void	do_instruction(t_conv *instr_list, t_stacks *sts)
 
 void	fill_instr(char *instruction, t_conv *instr_arr)
 {
-	while(*instruction == ' ')
-	{
-		instruction++;
-	}
 	if (ft_strcmp(instruction, "sa") == 0)
 		instr_arr->f = *sa;
 	else if (ft_strcmp(instruction, "sb") == 0)

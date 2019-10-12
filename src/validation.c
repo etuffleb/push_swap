@@ -6,19 +6,44 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 20:51:28 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/10/12 00:33:47 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/10/12 03:17:17 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	ft_error(char *str)
+long int	long_atoi(const char *str)
 {
-	ft_putendl(str);
-	exit(1);
+	int			n;
+	long int	res;
+
+	n = 1;
+	res = 0;
+	while (*str == 32 || (*str >= 9 && *str <= 13))
+		str++;
+	if (*str == '-')
+		n = -1;
+	if (*str == '-' || *str == '+')
+		str++;
+	while (*str >= '0' && *str <= '9')
+	{
+		res = res * 10 + (*str - '0');
+		str++;
+	}
+	return ((res * n));
 }
 
-void	check_repeat(int *a, int size)
+int			ft_is_int(char *str)
+{
+	int64_t		nbr;
+
+	nbr = long_atoi(str);
+	if (nbr < INT_MIN || nbr > INT_MAX)
+		ft_error("Error");
+	return ((int)nbr);
+}
+
+void		check_repeat(int *a, int size)
 {
 	int i;
 	int j;
@@ -36,12 +61,12 @@ void	check_repeat(int *a, int size)
 	}
 }
 
-int		*create_stack(int ac, char **av, int *top)
+int			*create_stack(int ac, char **av, int *top)
 {
-	int *a;
-	int i;
-	int j;
-	int t;
+	int			*a;
+	int			i;
+	int			j;
+	int			t;
 
 	i = 0;
 	t = 0;
@@ -52,7 +77,7 @@ int		*create_stack(int ac, char **av, int *top)
 		j = 0;
 		while (av[i + 1][j] != '\0')
 		{
-			a[(*top) - ++t] = ft_atoi(&av[i + 1][j++]);
+			a[(*top) - ++t] = ft_is_int(&av[i + 1][j++]);
 			while ((ft_isdigit(av[i + 1][j]) || av[i + 1][j] == '-' || \
 			av[i + 1][j] == '+') && av[i + 1][j] != '\0')
 				j++;
@@ -63,10 +88,10 @@ int		*create_stack(int ac, char **av, int *top)
 	return (a);
 }
 
-int		*is_valid(int ac, char **av, int *top)
+int			*is_valid(int ac, char **av, int *top)
 {
-	int i;
-	int j;
+	int			i;
+	int			j;
 
 	if (ac < 2)
 		ft_error("");
