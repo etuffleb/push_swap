@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 17:41:48 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/10/12 04:08:21 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/10/24 18:31:41 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct	s_conv
 	char			*instr;
 	void			(*f)(t_stacks *);
 	struct s_conv	*next;
-	struct s_conv	*prev;
 }				t_conv;
 
 void			checker_vizualisation(t_stacks *sts, int top);
@@ -71,5 +70,6 @@ void			rotate_until(t_conv *list, t_stacks *sts);
 void			just_push_b(t_conv *list, t_stacks *sts, int max_i);
 void			ft_free_sts(t_stacks *fresh_sts);
 void			ft_list_free(t_conv *list);
+void			just_push_bigger(t_conv *list, t_stacks *sts, int max_i);
 
 #endif

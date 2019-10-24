@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 20:34:58 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/10/12 05:30:42 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/10/24 17:27:22 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ t_stacks	*create_vi_stacks(t_stacks *sts, int top)
 	int			i;
 
 	if (!(fresh_sts = (t_stacks *)ft_memalloc(sizeof(t_stacks))))
-		ft_error("cannot allocate memory");
+		ft_error("Error");
 	if (!(a = ft_memalloc(sizeof(int) * top)))
-		ft_error("cannot allocate memory");
+		ft_error("Error");
 	if (!(b = ft_memalloc(sizeof(int) * top)))
-		ft_error("cannot allocate memory");
+		ft_error("Error");
 	i = 0;
 	while (i < top + 1)
 	{
@@ -46,7 +46,10 @@ void		start_algorithm(t_stacks *sts, int top, t_conv *tmp_list)
 		smart_sort(tmp_list, sts, top);
 	else
 	{
-		just_push_b(tmp_list, sts, top);
+		if (sts->top_a > 101)
+			just_push_bigger(tmp_list, sts, top);
+		else
+			just_push_b(tmp_list, sts, top);
 		sort_a_in_needed_order(tmp_list, sts, 2);
 		while (sts->top_b != -1)
 		{
@@ -90,7 +93,7 @@ t_stacks	*init_stacks(int *a, int *b, int top)
 	t_stacks	*sts;
 
 	if (!(sts = (t_stacks *)ft_memalloc(sizeof(t_stacks))))
-		ft_error("cannot allocate memory");
+		ft_error("Error");
 	sts->a = a;
 	sts->b = b;
 	sts->top_a = top;
@@ -118,13 +121,11 @@ int			main(int ac, char **av)
 		v = 1;
 	}
 	if (!(a = is_valid(ac, av, &top)))
-		ft_error("cannot allocate memory\n");
+		ft_error("Error");
 	if (!(b = ft_memalloc(sizeof(int) * top)))
-		ft_error("cannot allocate memory\n");
+		ft_error("Error");
 	sts = init_stacks(a, b, top - 1);
 	run_sorting(sts, top - 1, v);
-	free(sts);
-	free(a);
-	free(b);
-	exit(0);
+	ft_free_sts(sts);
+	return (0);
 }

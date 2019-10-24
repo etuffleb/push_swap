@@ -17,10 +17,12 @@ SRC = 	operations.c \
 	operations2.c \
 	operations3.c \
 	tools.c \
+	tools2.c \
 	optimization.c \
 	validation.c \
 	quick_sort.c \
-	new.c \
+	algorithm.c \
+	algorithm2.c \
 	vizualisation.c
 
 SRC1 = $(SRC) push_swap.c
@@ -62,7 +64,8 @@ clean:
 	make -C ./libft clean
 
 fclean: clean
-	rm -rf $(NAME)
+	rm -rf $(NAME1)
+	rm -rf $(NAME2)
 	make -C ./libft fclean
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 20:35:26 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/10/12 01:50:18 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/10/24 18:09:02 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ void	read_line(t_stacks *sts, int v)
 	int			top;
 	t_conv		*instruction;
 
-	instruction = ft_memalloc(sizeof(t_conv*));
+	instruction = malloc(sizeof(t_conv));
+	instruction->next = NULL;
+	instruction->f = NULL;
 	top = sts->top_a;
 	if (v)
 		checker_vizualisation(sts, top);
@@ -30,7 +32,7 @@ void	read_line(t_stacks *sts, int v)
 		if (v)
 			checker_vizualisation(sts, top);
 	}
-	free(instruction);
+	ft_list_free(instruction);
 }
 
 char	*run_checker(int *a, int *b, int top, int v)
@@ -43,9 +45,9 @@ char	*run_checker(int *a, int *b, int top, int v)
 	sts.top_b = -1;
 	read_line(&sts, v);
 	if (check_stacks(&sts))
-		return ("OK\n");
+		return (v) ? ("✅ OK\n") : ("OK\n");
 	else
-		return ("KO\n");
+		return (v) ? ("❌ KO\n") : ("KO\n");
 }
 
 int		main(int ac, char **av)
@@ -66,9 +68,9 @@ int		main(int ac, char **av)
 	if (ac < 2)
 		return (0);
 	if (!(a = is_valid(ac, av, &top)))
-		ft_error("cannot allocate memory\n");
+		ft_error("Error");
 	if (!(b = ft_memalloc(sizeof(int) * top)))
-		ft_error("cannot allocate memory");
+		ft_error("Error");
 	ft_putstr(run_checker(a, b, top, v));
 	free(a);
 	free(b);

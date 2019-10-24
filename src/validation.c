@@ -6,16 +6,16 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 20:51:28 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/10/12 03:17:17 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/10/24 18:32:51 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-long int	long_atoi(const char *str)
+long long int	long_atoi(const char *str)
 {
-	int			n;
-	long int	res;
+	int				n;
+	long long int	res;
 
 	n = 1;
 	res = 0;
@@ -33,21 +33,21 @@ long int	long_atoi(const char *str)
 	return ((res * n));
 }
 
-int			ft_is_int(char *str)
+int				ft_is_int(char *str)
 {
-	int64_t		nbr;
+	long long		nbr;
 
 	nbr = long_atoi(str);
-	if (nbr < INT_MIN || nbr > INT_MAX)
+	if (nbr != ft_atoi(str))
 		ft_error("Error");
 	return ((int)nbr);
 }
 
-void		check_repeat(int *a, int size)
+void			check_repeat(int *a, int size)
 {
-	int i;
-	int j;
-	int sample;
+	int				i;
+	int				j;
+	int				sample;
 
 	i = 0;
 	while (i < size)
@@ -61,16 +61,16 @@ void		check_repeat(int *a, int size)
 	}
 }
 
-int			*create_stack(int ac, char **av, int *top)
+int				*create_stack(int ac, char **av, int *top)
 {
-	int			*a;
-	int			i;
-	int			j;
-	int			t;
+	int				*a;
+	int				i;
+	int				j;
+	int				t;
 
 	i = 0;
 	t = 0;
-	if (!(a = (int *)ft_memalloc(sizeof(int) * *top * 3)))
+	if (!(a = (int *)ft_memalloc(sizeof(int) * (*top + 1))))
 		return (NULL);
 	while (i < ac - 1)
 	{
@@ -88,10 +88,10 @@ int			*create_stack(int ac, char **av, int *top)
 	return (a);
 }
 
-int			*is_valid(int ac, char **av, int *top)
+int				*is_valid(int ac, char **av, int *top)
 {
-	int			i;
-	int			j;
+	int				i;
+	int				j;
 
 	if (ac < 2)
 		ft_error("");

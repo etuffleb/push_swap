@@ -6,7 +6,7 @@
 /*   By: etuffleb <etuffleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 15:14:40 by etuffleb          #+#    #+#             */
-/*   Updated: 2019/10/12 03:16:27 by etuffleb         ###   ########.fr       */
+/*   Updated: 2019/10/22 23:56:17 by etuffleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ void		delete_opposite(t_conv *list, int *optimise)
 	t_conv		*list_to_free;
 
 	list_to_free = list->next;
-	list->next = list->next->next->next;
 	free(list_to_free);
+	list->next = list->next->next->next;
 	free(list_to_free->next);
 	*optimise = 1;
 }
