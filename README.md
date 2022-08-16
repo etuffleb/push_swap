@@ -28,24 +28,20 @@ any duplicates. <br>
 | <b>rrb</b>    | reverse rotate b - shift down all elements of stack b by 1. The flast element becomes the first one. |
 | <b>rrr</b>    | rra and rrb at the same time. |
 
-#### Push_swap example
-$>./push_swap 48 -56 100 -97 99 -70
-ra
-pb
-ra
-ra
-pb
-ra
-rrb
-pa
-ra
-ra
-pa
-ra
-ra
+### Push_swap example
+$>./push_swap -8 -6 97 99 -70
+<br/>rra
+<br/>pb
+<br/>ra
+<br/>pb
+<br/>rra
+<br/>pa
+<br/>pa
+
 
 Or you can use it with flag **-v** for visualisation:
-![](https://github.com/etuffleb/push_swap.git/pushswap.gif)
+
+![ff](https://github.com/etuffleb/push_swap/blob/master/pushswap.gif)
 
 ### Checker
 * You have to write a program named checker, which will get as an argument the
@@ -63,7 +59,7 @@ Errors include for example: some arguments are not integers, some arguments are
 bigger than an integer, there are duplicates, an instruction don’t exist and/or is
 incorrectly formatted.
 
-#### Checker example
+### Checker example
 ```
 $>./checker 3 2 1 0
 rra
