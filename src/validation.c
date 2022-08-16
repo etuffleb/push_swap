@@ -94,7 +94,7 @@ int				*is_valid(int ac, char **av, int *top)
 	int				j;
 
 	if (ac < 2)
-		ft_error("");
+		ft_error("Number of parameters should be more then 0");
 	i = 1;
 	while (i < ac)
 	{

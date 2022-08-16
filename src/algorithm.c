@@ -14,13 +14,13 @@
 
 void	just_push_b(t_conv *list, t_stacks *sts, int max_i)
 {
-	int		pivot;
+	//int		pivot;
 	int		i;
 	int		rest;
 
 	if (sts->top_a < 3)
 		return ;
-	pivot = (int)ft_pivot(sts->a, sts->top_a, max_i - 1);
+	//pivot = (int)ft_pivot(sts->a, sts->top_a, max_i - 1);
 	i = 0;
 	rest = 0;
 	while (i++ < max_i)

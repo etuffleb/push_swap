@@ -53,7 +53,7 @@ void	start_vizualisation(t_stacks *sts, t_conv *instr_list)
 		system("clear");
 		do_instruction(instr_list, sts);
 		draw_status(sts, hight);
-		usleep(50000);
+		usleep(70000);
 		instr_list = instr_list->next;
 	}
 }
